@@ -9,6 +9,17 @@ return {
   --     require("lsp_signature").setup()
   --   end,
   -- },
+  -- {
+  --   "prochri/telescope-all-recent.nvim",
+  --   config = function()
+  --     require("telescope-all-recent").setup {
+  --       -- your config goes here
+  --     }
+  --   end,
+  --   dependencies = {
+  --     "kkharji/sqlite.lua",
+  --   },
+  -- },
   {
     "nvim-neotest/neotest",
     ft = { "ruby" }, -- Only Ruby is left

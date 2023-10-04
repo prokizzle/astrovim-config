@@ -1,9 +1,9 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   opts = {
-    -- Automatically install missing parsers when entering buffer
+    -- this is a comment
+    ensure_installed = { "markdown", "vim", "lua", "python", "rust", "javascript", "html", "css", "json", "toml", "regex" },
     auto_install = true,
-    ensure_installed = { "javascript", "typescript", "ruby", "tsx", "html", "css", "json", "toml", "vim" },
-    incremental_selection = { enable = true },
+    sync_install = false,
   },
 }
