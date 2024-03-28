@@ -31,7 +31,7 @@ return {
       format_on_save = {
         enabled = true, -- enable or disable format on save globally
       },
-      -- timeout_ms = 3200, -- default format timeout
+      timeout_ms = 3200, -- default format timeout
       -- filter = function(client) -- fully override the default formatting function
       --   return true
       -- end
@@ -40,10 +40,10 @@ return {
     -- servers = {
     --   -- "pyright"
     -- },
-    -- setup_handlers = {
-    --   -- add custom handler
-    --   tsserver = function(_, opts) require("typescript").setup { server = opts } end,
-    -- },
+    setup_handlers = {
+      -- add custom handler
+      tsserver = function(_, opts) require("typescript").setup { server = opts } end,
+    },
   },
   plugins = {
     "AstroNvim/astrocommunity",
@@ -56,24 +56,40 @@ return {
         -- Set a formatter
         -- null_ls.builtins.formatting.rufo,
         -- Set a linter
-        null_ls.builtins.diagnostics.rubocop,
-        null_ls.builtins.formatting.rubocop,
-        null_ls.builtins.formatting.prettier,
-        null_ls.builtins.code_actions.eslint,
-        null_ls.builtins.diagnostics.eslint,
-        null_ls.builtins.formatting.prettier_eslint,
+        -- null_ls.builtins.diagnostics.rubocop,
+        null_ls.builtins.diagnostics.semgrep,
+        -- null_ls.builtins.formatting.rubocop,
+        -- null_ls.builtins.diagnostics.rubocop.with {
+        --   command = "bundle",
+        --   args = vim.list_extend({ "exec", "rubocop" }, null_ls.builtins.diagnostics.rubocop._opts.args),
+        -- },
+        -- null_ls.builtins.formatting.rubocop.with {
+        --   command = "bundle",
+        --   args = vim.list_extend({ "exec", "rubocop" }, null_ls.builtins.formatting.rubocop._opts.args),
+        -- },
+        null_ls.builtins.formatting.erb_format,
+        null_ls.builtins.formatting.erb_lint,
+        null_ls.builtins.formatting.rubyfmt,
+        -- null_ls.builtins.formatting.prettier,
+        -- null_ls.builtins.code_actions.eslint_d,
+        -- null_ls.builtins.diagnostics.eslint_d,
+        -- null_ls.builtins.diagnostics.prettier,
+        -- null_ls.builtins.formatting.eslint_d,
+        -- null_ls.builtins.formatting.prettier_eslint,
+        -- null_ls.builtins.diagnostics.prettier_eslint,
+        -- null_ls.builtins.code_actions.xo,
       }
       -- set up null-ls's on_attach function
-      config.on_attach = function(client)
-        -- NOTE: You can remove this on attach function to disable format on save
-        if client.resolved_capabilities.document_formatting then
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            desc = "Auto format before save",
-            pattern = "<buffer>",
-            callback = vim.lsp.buf.formatting_sync,
-          })
-        end
-      end
+      -- config.on_attach = function(client)
+      --   -- NOTE: You can remove this on attach function to disable format on save
+      --   if client.resolved_capabilities.document_formatting then
+      --     vim.api.nvim_create_autocmd("BufWritePre", {
+      --       desc = "Auto format before save",
+      --       pattern = "<buffer>",
+      --       callback = vim.lsp.buf.formatting_sync,
+      --     })
+      --   end
+      -- end
       return config -- return final config table
     end,
   },
@@ -105,7 +121,7 @@ return {
   polish = function()
     local g = vim.g
 
-    g["node_host_prog"] = vim.call("system", 'volta which neovim-node-host | tr -d "\n"')
+    g["node_host_prog"] = vim.call("system", 'which neovim-node-host | tr -d "\n"')
     -- Set up custom filetypes
     -- vim.filetype.add {
     --   extension = {

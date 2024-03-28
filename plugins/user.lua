@@ -42,13 +42,6 @@ return {
           require "neotest-rspec" {
             rspec_cmd = function()
               return vim.tbl_flatten {
-                "docker",
-                "compose",
-                "exec",
-                "-i",
-                "-w",
-                "/app",
-                "-e",
                 "RAILS_ENV=test",
                 "web",
                 "bundle",
